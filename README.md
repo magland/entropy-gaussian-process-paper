@@ -54,7 +54,7 @@ cd experiments
 python convergence_figures.py      # Figures 1-3, Table 1
 python family_curves_figures.py    # Figures 4-8
 python family_curves_tables.py     # the Appendix C tables
-python compressors_figures.py      # Figure 9, Table 2
+python compressors_figures.py      # Figures 9-10, Table 2
 ```
 
 To regenerate the results themselves, see [`experiments/README.md`](experiments/README.md),

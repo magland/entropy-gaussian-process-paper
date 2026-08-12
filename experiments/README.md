@@ -114,12 +114,50 @@ estimator rather than by the formula.
 ## Section 5.3 — practical compressors
 
 ```bash
-python compressors.py             # zlib raw + LPC(32)/ANS across families and deltas
-python compressors_figures.py     # figure + markdown table at delta = 0.25
+python compressors.py             # the codec panel across families and deltas
+python compressors_figures.py     # two figures, the markdown table, and the LaTeX table
 ```
 
-CPU only, a few minutes.  Records both stages (raw and LPC residual) of both
-codecs, the analytical approximation as the reference rate, and the empirical
-order-0 entropy.  `--lpc-order` (default 32, the FLAC maximum) applies to
-every family; order L - 1 is markedly worse for the spectral-zero families
+CPU only.  Each grid point compresses five realizations of length `n = 1e6`
+with every codec in `--methods` on every stage in `--transforms` (raw, the
+first difference, and the residual of the fixed-point linear predictor), and
+records the analytical approximation as the reference rate together with the
+empirical order-0 entropy.  The default panel is zlib -9, bzip2 -9, LZMA -9,
+zstd -19, brotli -11, FLAC -8, and ANS.  `--lpc-order` (default 32) applies
+to every family; order L - 1 is markedly worse for the spectral-zero families
 (ma, diff).
+
+The grid points are independent, so `-j` runs them in parallel; the seeding
+is per point, and results are identical to a serial run.  Cost is dominated
+by brotli, which is worth an order of magnitude more time than the rest of
+the panel together, so the runs reported in the paper give the full panel
+only the stage it is reported on:
+
+```bash
+PANEL="zlib-9 bz2-9 lzma-9 zstd-19 brotli-11 flac-8 ans"
+STAGED="zlib-9 ans flac-8"
+python compressors.py --transforms raw --methods $PANEL -n 1000000 -r 5 -j 10 \
+  -o results/compressors.json
+python compressors.py --transforms delta lpc --methods $STAGED -n 1000000 -r 5 -j 10 \
+  -o results/compressors_staged.json
+```
+
+with the same pair repeated for the two strongly smoothing families at the
+fine steps (`--processes gaussian15 lowpass --deltas 0.0625 0.125
+--hard-min-delta 0`, into `results/compressors_fine*.json`).  Together these
+take about ten minutes on twelve cores.
+
+FLAC is the reference encoder, not an emulation: `egp.flac_size` drives
+libFLAC through pyFLAC, falling back to libsndfile (both were checked to
+produce byte-identical streams).  Note that FLAC at level 8 fits predictors
+of order up to 12, the streamable-subset limit at these sample rates; raising
+its limit to 32 changed nothing on these families, so its distance from the
+rate is not a matter of predictor order.
+
+The figure script merges every `compressors*.json` by process and step,
+codec by codec, so a codec added later may be run on its own into a suffixed
+results file rather than repeating the whole sweep, e.g.
+
+```bash
+python compressors.py --methods lz4-12 --deltas 0.25 -o results/compressors_lz4.json
+```

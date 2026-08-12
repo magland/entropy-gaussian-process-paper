@@ -228,11 +228,17 @@ classical fine-quantization value and the marginal bound).
 egp compress --preset ma --taps 8 --delta 0.5 -n 200000
 ```
 
-Generates a long realization and compresses it with every available codec, both
-raw and on the residual of a fixed-point linear predictor, reporting bits per
-sample against a 16-bit baseline.  Options: `-n/--samples`, `--lpc-order`
-(default $L-1$; 0 disables), `--methods`, `--estimate` (also run the particle
-filter, with `--estimate-n`, `-N`, `-r`), `--seed`, `--json`, `-q/--quiet`.
+Generates a long realization and compresses it with every available codec on
+each requested view of the stream, reporting bits per sample against a 16-bit
+baseline.  The views are `raw`, `delta` (the first difference), and `lpc` (the
+residual of a fixed-point linear predictor); each is integer-reversible, so
+every reported size is that of a lossless code.  Options: `-n/--samples`,
+`--lpc-order` (default $L-1$; 0 disables), `--transforms` (default `raw,lpc`),
+`--methods`, `--estimate` (also run the particle filter, with `--estimate-n`,
+`-N`, `-r`), `--seed`, `--json`, `-q/--quiet`.
 
 `zlib`, `bz2` and `lzma` come from the standard library; `pip install -e
-".[compress]"` adds zstd, brotli, lz4 and ANS.
+".[compress]"` adds zstd, brotli, lz4, ANS, and FLAC.  The FLAC entry is the
+reference encoder at level 8 (`egp.flac_size`), driven through pyFLAC, or
+through libsndfile if `soundfile` is installed instead; the two produce
+byte-identical streams.

@@ -1,4 +1,5 @@
 import bz2
+import importlib.util
 import json
 import lzma
 import math
@@ -53,6 +54,13 @@ def test_lpc_on_white_noise_barely_helps():
     assert egp.empirical_entropy_bits(residual) > egp.empirical_entropy_bits(y) - 0.1
 
 
+def test_delta_round_trip_and_reduces_entropy(correlated):
+    d = egp.delta_transform(correlated)
+    assert np.array_equal(egp.delta_inverse(d), correlated)
+    assert d[0] == correlated[0]
+    assert egp.empirical_entropy_bits(d) < egp.empirical_entropy_bits(correlated)
+
+
 # --------------------------------------------------------------------------
 # sampling and codecs
 # --------------------------------------------------------------------------
@@ -96,6 +104,43 @@ def test_registry_has_the_standard_library_codecs():
     assert {"zlib-9", "bz2-9", "lzma-9"} <= set(egp.codec_registry())
 
 
+def test_flac_encodes_losslessly_and_beats_the_raw_stream(correlated):
+    pytest.importorskip("soundfile")  # also the decoder for the round trip
+    import io
+
+    import soundfile as sf
+
+    n_bytes = egp.flac_size(correlated)
+    assert 0 < 8.0 * n_bytes / correlated.size < 16.0
+
+    buf = io.BytesIO()
+    with sf.SoundFile(buf, "w", samplerate=egp.compression.FLAC_RATE, channels=1,
+                      format="FLAC", subtype="PCM_16") as f:
+        value = sf._ffi.new("double*", 1.0)
+        sf._snd.sf_command(f._file, 0x1301, value, sf._ffi.sizeof("double"))
+        f.write(np.asarray(correlated, dtype=np.int16))
+    assert len(buf.getvalue()) == n_bytes
+    buf.seek(0)
+    restored, _ = sf.read(buf, dtype="int16")
+    assert np.array_equal(restored, np.asarray(correlated, dtype=np.int16))
+
+
+def test_flac_is_in_the_registry_when_a_backend_is_installed():
+    have_backend = True
+    try:
+        import pyflac  # noqa: F401
+    except ImportError:
+        have_backend = importlib.util.find_spec("soundfile") is not None
+    assert ("flac-8" in egp.codec_registry()) == have_backend
+
+
+def test_codecs_refuse_values_outside_int16():
+    big = np.array([0, 40_000, -40_000], dtype=np.int64)
+    for name, fn in egp.codec_registry().items():
+        with pytest.raises(ValueError, match="int16"):
+            fn(big)
+
+
 def test_benchmark_covers_both_transforms_and_sorts(correlated):
     results = egp.compress_benchmark(correlated, lpc_order=8, methods=["zlib-9", "lzma-9"])
     assert {r.transform for r in results} == {"raw", "lpc(8)"}
@@ -113,9 +158,28 @@ def test_benchmark_without_lpc_has_one_transform(correlated):
         correlated, lpc_order=0, methods=["zlib-9"])] == ["raw"]
 
 
+def test_benchmark_runs_every_requested_transform(correlated):
+    results = egp.compress_benchmark(
+        correlated, lpc_order=8, transforms=("raw", "delta", "lpc"), methods=["zlib-9"]
+    )
+    assert {r.transform for r in results} == {"raw", "delta", "lpc(8)"}
+    bits = {r.transform: r.bits_per_sample for r in results}
+    assert bits["lpc(8)"] < bits["delta"] < bits["raw"]
+
+
 def test_benchmark_rejects_unknown_codecs(correlated):
     with pytest.raises(ValueError, match="unknown or unavailable"):
         egp.compress_benchmark(correlated, methods=["not-a-codec"])
+
+
+def test_benchmark_rejects_unknown_transforms(correlated):
+    with pytest.raises(ValueError, match="unknown transform"):
+        egp.compress_benchmark(correlated, methods=["zlib-9"], transforms=("raw", "wavelet"))
+
+
+def test_benchmark_lpc_transform_needs_an_order(correlated):
+    with pytest.raises(ValueError, match="lpc_order"):
+        egp.compress_benchmark(correlated, methods=["zlib-9"], transforms=("lpc",))
 
 
 def test_no_codec_beats_the_entropy_rate_by_much(correlated):

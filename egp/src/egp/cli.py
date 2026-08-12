@@ -304,6 +304,7 @@ def cmd_compress(args: argparse.Namespace) -> int:
     delta = args.delta
     order = spec.n_taps - 1 if args.lpc_order is None else args.lpc_order
     methods = args.methods.split(",") if args.methods else None
+    transforms = args.transforms.split(",") if args.transforms else None
 
     y = quantized_sample(spec.taps, delta, args.samples, np.random.default_rng(args.seed))
     distinct = int(np.unique(y).size)
@@ -319,7 +320,9 @@ def cmd_compress(args: argparse.Namespace) -> int:
         print(f"  {r.method:>10} {r.transform:>10}   {status}   ({r.seconds:5.1f}s)",
               file=sys.stderr, flush=True)
 
-    results = compress_benchmark(y, lpc_order=order, methods=methods, progress=report)
+    results = compress_benchmark(
+        y, lpc_order=order, transforms=transforms, methods=methods, progress=report
+    )
 
     estimate = None
     if args.estimate:
@@ -459,6 +462,10 @@ def build_parser() -> argparse.ArgumentParser:
         "--lpc-order", type=int, help="linear prediction order (default: L-1; 0 disables)"
     )
     comp.add_argument("--methods", help="comma-separated subset of the available codecs")
+    comp.add_argument(
+        "--transforms",
+        help="comma-separated stages to code: raw, delta, lpc (default: raw,lpc)",
+    )
     comp.add_argument(
         "--estimate", action="store_true", help="also run the particle filter for the ideal"
     )

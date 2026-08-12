@@ -68,15 +68,90 @@ def lpc_inverse(residual, model: LPCModel) -> np.ndarray:
     return y
 
 
+def delta_transform(y) -> np.ndarray:
+    """First difference of the integer stream, the order-1 predictor with a
+    fixed coefficient.  The leading sample passes through, so the transform
+    inverts exactly by cumulative sum."""
+    y = np.asarray(y, dtype=np.int64)
+    d = y.copy()
+    d[1:] -= y[:-1]
+    return d
+
+
+def delta_inverse(d) -> np.ndarray:
+    return np.cumsum(np.asarray(d, dtype=np.int64))
+
+
+def _as_int16(a) -> np.ndarray:
+    """int16 view of an integer array, refusing values the type cannot hold.
+
+    A silent wrap would make the reported size meaningless, so the codec is
+    recorded as failed instead.
+    """
+    a = np.asarray(a)
+    if a.size and (a.min() < INT16_MIN or a.max() > INT16_MAX):
+        raise ValueError(
+            f"values span [{a.min()}, {a.max()}], outside int16; "
+            "the 16-bit serialization does not apply"
+        )
+    return a.astype(np.int16)
+
+
 def _int16_bytes(a) -> bytes:
-    return np.asarray(a, dtype="<i2").tobytes()
+    return _as_int16(a).astype("<i2").tobytes()
+
+
+#: Nominal sample rate written into the FLAC header; it affects the encoded
+#: size only through the fixed metadata block.
+FLAC_RATE = 30_000
+
+
+def flac_size(a, level: int = 8) -> int:
+    """Bytes of the int16 stream encoded by the reference FLAC encoder.
+
+    Uses pyFLAC when it is installed and libsndfile through soundfile
+    otherwise; both drive libFLAC and were checked to produce byte-identical
+    streams.  The size includes FLAC's own header, about 50 bytes.
+    """
+    samples = _as_int16(a)
+    try:
+        import pyflac
+    except ImportError:
+        pass
+    else:
+        chunks: list[int] = []
+        encoder = pyflac.StreamEncoder(
+            write_callback=lambda buf, nbytes, nsamples, current: chunks.append(len(buf)),
+            sample_rate=FLAC_RATE,
+            compression_level=level,
+        )
+        encoder.process(samples.reshape(-1, 1))
+        encoder.finish()
+        return int(sum(chunks))
+
+    import io
+
+    import soundfile as sf
+
+    buf = io.BytesIO()
+    with sf.SoundFile(
+        buf, "w", samplerate=FLAC_RATE, channels=1, format="FLAC", subtype="PCM_16"
+    ) as f:
+        # libsndfile takes the compression level as a fraction of the maximum,
+        # through a command not exposed by soundfile's public interface.
+        value = sf._ffi.new("double*", level / 8.0)
+        if sf._snd.sf_command(f._file, 0x1301, value, sf._ffi.sizeof("double")) != 1:
+            raise RuntimeError("libsndfile refused the FLAC compression level")
+        f.write(samples)
+    return len(buf.getvalue())
 
 
 def codec_registry():
     """name -> callable(integer array) -> compressed size in bytes.
 
     Byte-oriented codecs see the little-endian int16 serialization; ANS codes
-    the integers directly and its size includes the symbol table.
+    the integers directly and its size includes the symbol table; FLAC encodes
+    the stream as single-channel 16-bit audio.
     """
     import bz2
     import lzma
@@ -112,9 +187,17 @@ def codec_registry():
     try:
         from simple_ans import ans_encode
 
-        reg["ans"] = lambda a: ans_encode(np.asarray(a, dtype=np.int16)).size()
+        reg["ans"] = lambda a: ans_encode(_as_int16(a)).size()
     except ImportError:
         pass
+    try:
+        import pyflac  # noqa: F401
+    except ImportError:
+        try:
+            import soundfile  # noqa: F401
+        except ImportError:
+            return reg
+    reg["flac-8"] = lambda a: flac_size(a, 8)
     return reg
 
 
@@ -135,16 +218,33 @@ def empirical_entropy_bits(a) -> float:
     return float(-(p * np.log2(p)).sum())
 
 
-def compress_benchmark(y, *, lpc_order: int = 0, methods=None, progress=None):
-    """Every available codec on the raw samples and on the LPC residual,
-    sorted by bits per sample, best first."""
+def compress_benchmark(y, *, lpc_order: int = 0, transforms=None, methods=None, progress=None):
+    """Every available codec on every requested transform of the stream,
+    sorted by bits per sample, best first.
+
+    The transforms are ``raw``, ``delta`` (first difference), and ``lpc``
+    (fixed-point linear prediction at ``lpc_order``); by default the LPC stage
+    is included whenever an order is given.  Each is integer-reversible, so
+    the sizes are those of a lossless coder.
+    """
     y = np.asarray(y, dtype=np.int64)
     n = y.size
-    stages = [("raw", y, 0)]
-    if lpc_order:
-        residual, model = lpc_transform(y, lpc_order)
-        if model.order:
-            stages.append((f"lpc({model.order})", residual, model.header_bytes))
+    if transforms is None:
+        transforms = ("raw", "lpc") if lpc_order else ("raw",)
+    stages = []
+    for name in transforms:
+        if name == "raw":
+            stages.append(("raw", y, 0))
+        elif name == "delta":
+            stages.append(("delta", delta_transform(y), 0))
+        elif name == "lpc":
+            if not lpc_order:
+                raise ValueError("the lpc transform requires lpc_order > 0")
+            residual, model = lpc_transform(y, lpc_order)
+            if model.order:
+                stages.append((f"lpc({model.order})", residual, model.header_bytes))
+        else:
+            raise ValueError(f"unknown transform {name!r}; choose from raw, delta, lpc")
 
     reg = codec_registry()
     if methods:

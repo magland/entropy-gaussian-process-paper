@@ -16,7 +16,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-compress = ["zstandard", "brotli", "lz4", "simple-ans>=0.3"]
+compress = ["zstandard", "brotli", "lz4", "simple-ans>=0.3", "pyflac>=3.0"]
 gpu = ["wgpu>=0.19"]
 
 [project.scripts]
