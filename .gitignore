@@ -1,0 +1,35 @@
+# Node
+node_modules/
+dist/
+*.tsbuildinfo
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+.venv/
+venv/
+
+# Test / tool caches
+.pytest_cache/
+.vitest/
+.ruff_cache/
+.mypy_cache/
+
+# LaTeX
+paper/*.aux
+paper/*.log
+paper/*.out
+
+# Generated output: the built paper, and the vector copies of the figures
+# (the paper embeds the .png versions).  Rebuild with paper/build.sh and the
+# experiments/*_figures.py scripts.
+paper/*.pdf
+experiments/figures/*.pdf
+
+# OS
+.DS_Store
+
+# Personal working notes on the paper, kept locally
+notes.txt

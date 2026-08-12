@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "egp"
+version = "0.1.0"
+description = "Entropy rate estimation for quantized stationary Gaussian processes via a fully adapted particle filter"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+dependencies = [
+    "numpy>=1.22",
+    "scipy>=1.8",
+    "matplotlib>=3.5",
+]
+
+[project.optional-dependencies]
+compress = ["zstandard", "brotli", "lz4", "simple-ans>=0.3"]
+gpu = ["wgpu>=0.19"]
+
+[project.scripts]
+egp = "egp.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+egp = ["*.wgsl"]

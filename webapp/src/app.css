@@ -1,0 +1,582 @@
+/* Theme roles from the reference dataviz palette; dark mode is its own
+   selected set of steps, not an automatic flip. */
+:root {
+  color-scheme: light;
+  --page: #f9f9f7;
+  --surface: #fcfcfb;
+  --ink: #0b0b0b;
+  --ink-2: #52514e;
+  --muted: #898781;
+  --grid: #e1e0d9;
+  --baseline: #c3c2b7;
+  --border: rgba(11, 11, 11, 0.1);
+  --series-1: #2a78d6;
+  --series-2: #eb6834;
+  --series-3: #1baf7a;
+  --series-4: #8a5cd6;
+  --theory: #e87ba4;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --page: #0d0d0d;
+    --surface: #1a1a19;
+    --ink: #ffffff;
+    --ink-2: #c3c2b7;
+    --muted: #898781;
+    --grid: #2c2c2a;
+    --baseline: #383835;
+    --border: rgba(255, 255, 255, 0.1);
+    --series-1: #3987e5;
+    --series-2: #d95926;
+    --series-3: #199e70;
+    --series-4: #9a6fe8;
+    --theory: #d55181;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--page);
+  color: var(--ink);
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.app {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 20px 64px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.app-header {
+  padding-top: 16px;
+}
+
+/* Pinned parameter bar: the controls follow the reader down the page, so the
+   numbers they move are never a scroll away. */
+.control-bar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  padding: 12px 20px;
+  border-radius: 0 0 10px 10px;
+  border-top: none;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.07);
+}
+
+.control-bar .controls {
+  gap: 10px 22px;
+}
+
+.control-bar .control {
+  min-width: 0;
+}
+
+.control-bar input[type='range'],
+.control-bar select {
+  width: 148px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .control-bar {
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+  }
+}
+
+.app-header h1 {
+  font-size: 22px;
+  font-weight: 650;
+  margin: 0;
+}
+
+.app-header p {
+  margin: 3px 0 0;
+  color: var(--ink-2);
+  max-width: 100ch;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 20px;
+}
+
+.card > h2 {
+  font-size: 13px;
+  font-weight: 650;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ink-2);
+  margin: 0 0 12px;
+}
+
+.card-note {
+  color: var(--muted);
+  font-size: 12px;
+  margin: 10px 0 0;
+}
+
+/* ---- controls ---- */
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 28px;
+  align-items: flex-end;
+}
+
+.control {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 150px;
+}
+
+.control > label {
+  font-size: 12px;
+  color: var(--ink-2);
+}
+
+.control .value {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.control input[type='range'] {
+  accent-color: var(--series-1);
+  width: 170px;
+  margin: 0;
+}
+
+.control select,
+.control input[type='number'] {
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--baseline);
+  border-radius: 6px;
+  padding: 4px 8px;
+  font: inherit;
+  width: 170px;
+}
+
+/* ---- plots ---- */
+
+.filter-panels {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.filter-panels.three {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+@media (max-width: 900px) {
+  .filter-panels.three {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .filter-panels {
+    grid-template-columns: 1fr;
+  }
+}
+
+.panel h3 {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-2);
+  margin: 0 0 6px;
+}
+
+.panel {
+  position: relative;
+}
+
+.panel svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.scroll-wrap {
+  position: relative;
+}
+
+.scroll-canvas {
+  display: block;
+  width: 100%;
+  height: 130px;
+}
+
+.play-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: var(--surface);
+  color: var(--ink-2);
+  border: 1px solid var(--baseline);
+  border-radius: 7px;
+  padding: 4px 12px;
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.play-btn:hover {
+  color: var(--ink);
+}
+
+.viz-tooltip {
+  position: absolute;
+  pointer-events: none;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  white-space: nowrap;
+  z-index: 10;
+}
+
+.viz-tooltip .tip-value {
+  font-weight: 650;
+  color: var(--ink);
+}
+
+.viz-tooltip .tip-label {
+  color: var(--ink-2);
+}
+
+/* ---- stat tiles ---- */
+
+.stat-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 32px;
+  margin-bottom: 12px;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat .label {
+  font-size: 12px;
+  color: var(--ink-2);
+}
+
+.stat .value {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.stat .value small {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+/* A sample of a chart reference line's stroke, keying a stat to its line. */
+.line-swatch {
+  display: inline-block;
+  width: 18px;
+  margin: 0 6px 3px 0;
+  vertical-align: middle;
+}
+
+.stat-sub {
+  font-size: 12px;
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-action {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 5px;
+  font-size: 12px;
+}
+
+.stat-action button {
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--baseline);
+  border-radius: 6px;
+  padding: 1px 10px;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.stat-action button:hover {
+  border-color: var(--series-1);
+}
+
+.estimate-status {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.muted-sub {
+  color: var(--muted);
+}
+
+/* Collapse verdicts: the one message on the page that must not be missed. */
+.stat-warning {
+  margin-top: 4px;
+  max-width: 44ch;
+  font-size: 12px;
+  color: var(--series-2);
+  font-weight: 600;
+}
+
+.measure-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  margin-bottom: 12px;
+  font-size: 12px;
+  color: var(--ink-2);
+}
+
+.measure-row label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.measure-row select {
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--baseline);
+  border-radius: 6px;
+  padding: 2px 6px;
+  font: inherit;
+}
+
+/* ---- compression chart ---- */
+
+.chart-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+
+.metric-hint {
+  margin-left: 10px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.segmented {
+  display: inline-flex;
+  border: 1px solid var(--baseline);
+  border-radius: 7px;
+  overflow: hidden;
+}
+
+.segmented button {
+  border: none;
+  background: transparent;
+  color: var(--ink-2);
+  font: inherit;
+  font-size: 12px;
+  padding: 4px 10px;
+  cursor: pointer;
+}
+
+.segmented button.active {
+  background: var(--series-1);
+  color: #fff;
+}
+
+.legend {
+  display: flex;
+  gap: 14px;
+  font-size: 12px;
+  color: var(--ink-2);
+}
+
+.legend .swatch {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  margin-right: 5px;
+  vertical-align: -1px;
+}
+
+.chart-body {
+  position: relative;
+  transition: opacity 0.15s;
+}
+
+.chart-body.computing {
+  opacity: 0.55;
+}
+
+.computing-badge {
+  position: absolute;
+  top: -2px;
+  right: 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.bar-row-label {
+  fill: var(--ink);
+  font-size: 12px;
+}
+
+.bar-group-label {
+  fill: var(--muted);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.bar-value {
+  fill: var(--ink-2);
+  font-size: 11.5px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Coder overhead: a quiet strip under the chart, one entry per coder that
+   has an explicit model to be scored against. */
+.coder-efficiency {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 18px;
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--ink-2);
+}
+
+.coder-efficiency-title {
+  flex-basis: 100%;
+  color: var(--muted);
+}
+
+.coder-efficiency-item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  font-variant-numeric: tabular-nums;
+}
+
+.coder-efficiency-bits {
+  color: var(--muted);
+}
+
+.coder-efficiency-pct {
+  font-weight: 600;
+}
+
+.axis-tick {
+  fill: var(--muted);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
+.chart-table {
+  margin-top: 10px;
+  color: var(--ink-2);
+  font-size: 12.5px;
+}
+
+.chart-table summary {
+  cursor: pointer;
+  color: var(--muted);
+}
+
+.chart-table table {
+  margin-top: 8px;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+
+.chart-table th,
+.chart-table td {
+  text-align: right;
+  padding: 3px 14px 3px 0;
+  border-bottom: 1px solid var(--grid);
+}
+
+.chart-table th:first-child,
+.chart-table td:first-child {
+  text-align: left;
+}
+
+.chart-table th {
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.command-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.command-row code {
+  background: var(--page);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 3px 8px;
+  font-size: 11.5px;
+  color: var(--ink-2);
+  overflow-x: auto;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.command-row button {
+  background: var(--surface);
+  color: var(--ink-2);
+  border: 1px solid var(--baseline);
+  border-radius: 6px;
+  padding: 2px 10px;
+  font: inherit;
+  font-size: 11.5px;
+  cursor: pointer;
+}
+
+.command-row button:hover {
+  color: var(--ink);
+}
+
+/* ---- math ---- */
+
+.math-section p {
+  color: var(--ink-2);
+  max-width: 76ch;
+}
+
+.math-section .katex-display {
+  margin: 14px 0;
+}

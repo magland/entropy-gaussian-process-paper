@@ -1,0 +1,81 @@
+name: Deploy to GitHub Pages
+
+# Publishes two things to the one Pages site: the interactive web app at the
+# root, and the compiled paper at /paper.pdf.  Neither is tracked in git, so
+# both are built here from source on every push to main.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One deployment at a time; let an in-flight one finish rather than cancelling
+# it, so a run never leaves the site half-published.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # --- the paper ---------------------------------------------------
+      # paper.tex needs only fontenc, inputenc, geometry, amsmath, amssymb,
+      # graphicx, booktabs, longtable, array, calc and hyperref, all of which
+      # live in these three packages; texlive-latex-extra is a gigabyte that
+      # this document does not need.
+      - name: Install TeX Live
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            texlive-latex-base texlive-latex-recommended texlive-fonts-recommended
+
+      - name: Build the paper
+        working-directory: paper
+        run: ./build.sh paper
+
+      # --- the web app -------------------------------------------------
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: webapp/package-lock.json
+
+      - name: Install web app dependencies
+        working-directory: webapp
+        run: npm ci
+
+      # Typechecks (tsc -b) and bundles.  The bundle pulls in
+      # egp/src/egp/pf.wgsl from outside webapp/, so the whole repo must be
+      # checked out, as it is above.
+      - name: Build the web app
+        working-directory: webapp
+        run: npm run build
+
+      # --- assemble and upload ------------------------------------------
+      - name: Assemble the site
+        run: |
+          mkdir -p site
+          cp -r webapp/dist/. site/
+          cp paper/paper.pdf site/paper.pdf
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

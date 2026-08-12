@@ -1,0 +1,661 @@
+{
+  "meta": {
+    "timestamp": "2026-08-07T23:24:10+00:00",
+    "egp_version": "0.1.0",
+    "engine": "gpu",
+    "argv": [
+      "convergence_collapse.py",
+      "--processes",
+      "gaussian15",
+      "--particles",
+      "300",
+      "1000",
+      "3000",
+      "10000",
+      "30000",
+      "-r",
+      "8",
+      "-o",
+      "results/convergence_collapse_g15.json"
+    ],
+    "gpu": "Intel(R) Iris(R) Xe Graphics (RPL-U) (Vulkan)"
+  },
+  "config": {
+    "processes": [
+      "gaussian15"
+    ],
+    "particles": [
+      300,
+      1000,
+      3000,
+      10000,
+      30000
+    ],
+    "samples": 30000,
+    "repeats": 8,
+    "delta": null,
+    "seed": 0
+  },
+  "runs": [
+    {
+      "result": {
+        "entropy_rate_bits": 273230.4009202025,
+        "stderr_bits": NaN,
+        "per_repeat_bits": [
+          251801.62668506478,
+          287552.3636437086,
+          297677.5333735185,
+          261899.9151821655,
+          272486.3134049768,
+          261628.9835463793,
+          276789.1855556916,
+          276007.2859701151
+        ],
+        "per_repeat_usable": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ],
+        "label": "Gaussian kernel (tau=1.5, 13 taps)",
+        "delta": 0.5,
+        "sigma": 0.9999999999999999,
+        "h0": 0.05844969824005386,
+        "n_taps": 13,
+        "n": 30000,
+        "n_particles": 300,
+        "n_repeats": 8,
+        "burn_in": 0,
+        "lower_bound_bits": 0.0,
+        "upper_bound_bits": 3.0619692493630026,
+        "approximation_bits": 1.641549404402135,
+        "empirical_symbol_entropy_bits": 3.0625333465445093,
+        "n_symbols_observed": 19,
+        "mean_ess": 0.8992699304782106,
+        "min_ess": 0.0033333334140479565,
+        "lost_lock_fraction": 0.8964916666666666,
+        "autocov_error": 4.469710519666937e-16,
+        "floored_fraction": 0.0,
+        "elapsed_sec": 2.3776023387908936,
+        "params": {
+          "tau": 1.5,
+          "preset": "gaussian",
+          "engine": "gpu"
+        },
+        "delta_over_sigma": 0.5000000000000001,
+        "delta_over_h0": 8.554364095200148,
+        "n_usable_repeats": 0,
+        "n_failed_repeats": 8,
+        "within_bounds": false,
+        "collapsed": true
+      },
+      "repeats": [
+        {
+          "index": 0,
+          "entropy_rate_bits": 251801.62668506478,
+          "mean_ess": 0.8651518371181873,
+          "lost_lock_fraction": 0.8277666666666667,
+          "usable": false,
+          "seconds": 0.22256943583488464
+        },
+        {
+          "index": 1,
+          "entropy_rate_bits": 287552.3636437086,
+          "mean_ess": 0.9242019569782928,
+          "lost_lock_fraction": 0.9454,
+          "usable": false,
+          "seconds": 0.22256943583488464
+        },
+        {
+          "index": 2,
+          "entropy_rate_bits": 297677.5333735185,
+          "mean_ess": 0.9346479828866043,
+          "lost_lock_fraction": 0.9621666666666666,
+          "usable": false,
+          "seconds": 0.22256943583488464
+        },
+        {
+          "index": 3,
+          "entropy_rate_bits": 261899.9151821655,
+          "mean_ess": 0.8709519786524587,
+          "lost_lock_fraction": 0.8469,
+          "usable": false,
+          "seconds": 0.22256943583488464
+        },
+        {
+          "index": 4,
+          "entropy_rate_bits": 272486.3134049768,
+          "mean_ess": 0.9096035322069346,
+          "lost_lock_fraction": 0.9177,
+          "usable": false,
+          "seconds": 0.22256943583488464
+        },
+        {
+          "index": 5,
+          "entropy_rate_bits": 261628.9835463793,
+          "mean_ess": 0.8871201810274506,
+          "lost_lock_fraction": 0.8742333333333333,
+          "usable": false,
+          "seconds": 0.22256943583488464
+        },
+        {
+          "index": 6,
+          "entropy_rate_bits": 276789.1855556916,
+          "mean_ess": 0.899528663052308,
+          "lost_lock_fraction": 0.8990666666666667,
+          "usable": false,
+          "seconds": 0.22256943583488464
+        },
+        {
+          "index": 7,
+          "entropy_rate_bits": 276007.2859701151,
+          "mean_ess": 0.9029533119034487,
+          "lost_lock_fraction": 0.8987,
+          "usable": false,
+          "seconds": 0.22256943583488464
+        }
+      ],
+      "process": "gaussian15"
+    },
+    {
+      "result": {
+        "entropy_rate_bits": 1.6403393244879827,
+        "stderr_bits": 0.0,
+        "per_repeat_bits": [
+          1.6403393244879827,
+          94883.09854986636,
+          253833.38994940408,
+          159041.81786983644,
+          217064.08962411754,
+          263624.79677426344,
+          125440.2800678999,
+          209019.89813879965
+        ],
+        "per_repeat_usable": [
+          true,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ],
+        "label": "Gaussian kernel (tau=1.5, 13 taps)",
+        "delta": 0.5,
+        "sigma": 0.9999999999999999,
+        "h0": 0.05844969824005386,
+        "n_taps": 13,
+        "n": 30000,
+        "n_particles": 1000,
+        "n_repeats": 8,
+        "burn_in": 0,
+        "lower_bound_bits": 0.0,
+        "upper_bound_bits": 3.0619692493630026,
+        "approximation_bits": 1.641549404402135,
+        "empirical_symbol_entropy_bits": 3.0625333465445093,
+        "n_symbols_observed": 19,
+        "mean_ess": 0.42401703332948965,
+        "min_ess": 0.0010006546508520842,
+        "lost_lock_fraction": 0.5446583333333332,
+        "autocov_error": 4.469710519666937e-16,
+        "floored_fraction": 0.0,
+        "elapsed_sec": 4.0907557010650635,
+        "params": {
+          "tau": 1.5,
+          "preset": "gaussian",
+          "engine": "gpu"
+        },
+        "delta_over_sigma": 0.5000000000000001,
+        "delta_over_h0": 8.554364095200148,
+        "n_usable_repeats": 1,
+        "n_failed_repeats": 7,
+        "within_bounds": true,
+        "collapsed": false
+      },
+      "repeats": [
+        {
+          "index": 0,
+          "entropy_rate_bits": 1.6403393244879827,
+          "mean_ess": 0.42401703332948965,
+          "lost_lock_fraction": 0.0,
+          "usable": true,
+          "seconds": 0.5109323859214783
+        },
+        {
+          "index": 1,
+          "entropy_rate_bits": 94883.09854986636,
+          "mean_ess": 0.5881710084938871,
+          "lost_lock_fraction": 0.3169666666666667,
+          "usable": false,
+          "seconds": 0.5109323859214783
+        },
+        {
+          "index": 2,
+          "entropy_rate_bits": 253833.38994940408,
+          "mean_ess": 0.8552984643274957,
+          "lost_lock_fraction": 0.8295,
+          "usable": false,
+          "seconds": 0.5109323859214783
+        },
+        {
+          "index": 3,
+          "entropy_rate_bits": 159041.81786983644,
+          "mean_ess": 0.6902288512315136,
+          "lost_lock_fraction": 0.5131666666666667,
+          "usable": false,
+          "seconds": 0.5109323859214783
+        },
+        {
+          "index": 4,
+          "entropy_rate_bits": 217064.08962411754,
+          "mean_ess": 0.7993468667121487,
+          "lost_lock_fraction": 0.7204333333333334,
+          "usable": false,
+          "seconds": 0.5109323859214783
+        },
+        {
+          "index": 5,
+          "entropy_rate_bits": 263624.79677426344,
+          "mean_ess": 0.8841218634943555,
+          "lost_lock_fraction": 0.8834666666666666,
+          "usable": false,
+          "seconds": 0.5109323859214783
+        },
+        {
+          "index": 6,
+          "entropy_rate_bits": 125440.2800678999,
+          "mean_ess": 0.6389512243594897,
+          "lost_lock_fraction": 0.4123,
+          "usable": false,
+          "seconds": 0.5109323859214783
+        },
+        {
+          "index": 7,
+          "entropy_rate_bits": 209019.89813879965,
+          "mean_ess": 0.7791897516929117,
+          "lost_lock_fraction": 0.6814333333333333,
+          "usable": false,
+          "seconds": 0.5109323859214783
+        }
+      ],
+      "process": "gaussian15"
+    },
+    {
+      "result": {
+        "entropy_rate_bits": 1.6380439400545899,
+        "stderr_bits": 0.0016224308726526253,
+        "per_repeat_bits": [
+          1.634093718753659,
+          1.6414580968330366,
+          1.6373034250275773,
+          1.6396918330824697,
+          1.6418963762739442,
+          1.6392226140543957,
+          1.6287830204551088,
+          1.6419024359565269
+        ],
+        "per_repeat_usable": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "label": "Gaussian kernel (tau=1.5, 13 taps)",
+        "delta": 0.5,
+        "sigma": 0.9999999999999999,
+        "h0": 0.05844969824005386,
+        "n_taps": 13,
+        "n": 30000,
+        "n_particles": 3000,
+        "n_repeats": 8,
+        "burn_in": 0,
+        "lower_bound_bits": 0.0,
+        "upper_bound_bits": 3.0619692493630026,
+        "approximation_bits": 1.641549404402135,
+        "empirical_symbol_entropy_bits": 3.0625333465445093,
+        "n_symbols_observed": 19,
+        "mean_ess": 0.4233210514345884,
+        "min_ess": 0.000337837147526443,
+        "lost_lock_fraction": 0.0,
+        "autocov_error": 4.469710519666937e-16,
+        "floored_fraction": 0.0,
+        "elapsed_sec": 12.271817922592163,
+        "params": {
+          "tau": 1.5,
+          "preset": "gaussian",
+          "engine": "gpu"
+        },
+        "delta_over_sigma": 0.5000000000000001,
+        "delta_over_h0": 8.554364095200148,
+        "n_usable_repeats": 8,
+        "n_failed_repeats": 0,
+        "within_bounds": true,
+        "collapsed": false
+      },
+      "repeats": [
+        {
+          "index": 0,
+          "entropy_rate_bits": 1.634093718753659,
+          "mean_ess": 0.42407238802392094,
+          "lost_lock_fraction": 0.0,
+          "usable": true,
+          "seconds": 1.533868819475174
+        },
+        {
+          "index": 1,
+          "entropy_rate_bits": 1.6414580968330366,
+          "mean_ess": 0.4232369709609057,
+          "lost_lock_fraction": 0.0,
+          "usable": true,
+          "seconds": 1.533868819475174
+        },
+        {
+          "index": 2,
+          "entropy_rate_bits": 1.6373034250275773,
+          "mean_ess": 0.422889761044118,
+          "lost_lock_fraction": 0.0,
+          "usable": true,
+          "seconds": 1.533868819475174
+        },
+        {
+          "index": 3,
+          "entropy_rate_bits": 1.6396918330824697,
+          "mean_ess": 0.4225458973310771,
+          "lost_lock_fraction": 0.0,
+          "usable": true,
+          "seconds": 1.533868819475174
+        },
+        {
+          "index": 4,
+          "entropy_rate_bits": 1.6418963762739442,
+          "mean_ess": 0.423175592853484,
+          "lost_lock_fraction": 0.0,
+          "usable": true,
+          "seconds": 1.533868819475174
+        },
+        {
+          "index": 5,
+          "entropy_rate_bits": 1.6392226140543957,
+          "mean_ess": 0.42366055961262705,
+          "lost_lock_fraction": 0.0,
+          "usable": true,
+          "seconds": 1.533868819475174
+        },
+        {
+          "index": 6,
+          "entropy_rate_bits": 1.6287830204551088,
+          "mean_ess": 0.42437528367040017,
+          "lost_lock_fraction": 0.0,
+          "usable": true,
+          "seconds": 1.533868819475174
+        },
+        {
+          "index": 7,
+          "entropy_rate_bits": 1.6419024359565269,
+          "mean_ess": 0.4226119579801743,
+          "lost_lock_fraction": 0.0,
+          "usable": true,
+          "seconds": 1.533868819475174
+        }
+      ],
+      "process": "gaussian15"
+    },
+    {
+      "result": {
+        "entropy_rate_bits": 1.636011880141143,
+        "stderr_bits": 0.0018165953145280651,
+        "per_repeat_bits": [
+          1.6319878344876098,
+          1.6381739681397138,
+          1.635798278477025,
+          1.6385325253438485,
+          1.640557761326808,
+          1.6372291342551597,
+          1.625288174948986,
+          1.6405273641499918
+        ],
+        "per_repeat_usable": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "label": "Gaussian kernel (tau=1.5, 13 taps)",
+        "delta": 0.5,
+        "sigma": 0.9999999999999999,
+        "h0": 0.05844969824005386,
+        "n_taps": 13,
+        "n": 30000,
+        "n_particles": 10000,
+        "n_repeats": 8,
+        "burn_in": 0,
+        "lower_bound_bits": 0.0,
+        "upper_bound_bits": 3.0619692493630026,
+        "approximation_bits": 1.641549404402135,
+        "empirical_symbol_entropy_bits": 3.0625333465445093,
+        "n_symbols_observed": 19,
+        "mean_ess": 0.4232991127186232,
+        "min_ess": 0.00010053865116788074,
+        "lost_lock_fraction": 0.0,
+        "autocov_error": 4.469710519666937e-16,
+        "floored_fraction": 0.0,
+        "elapsed_sec": 43.06685400009155,
+        "params": {
+          "tau": 1.5,
+          "preset": "gaussian",
+          "engine": "gpu"
+        },
+        "delta_over_sigma": 0.5000000000000001,
+        "delta_over_h0": 8.554364095200148,
+        "n_usable_repeats": 8,
+        "n_failed_repeats": 0,
+        "within_bounds": true,
+        "collapsed": false
+      },
+      "repeats": [
+        {
+          "index": 0,
+          "entropy_rate_bits": 1.6319878344876098,
+          "mean_ess": 0.42407437112226715,
+          "lost_lock_fraction": 0.0,
+          "usable": true,
+          "seconds": 5.3832617700099945
+        },
+        {
+          "index": 1,
+          "entropy_rate_bits": 1.6381739681397138,
+          "mean_ess": 0.4232117376447917,
+          "lost_lock_fraction": 0.0,
+          "usable": true,
+          "seconds": 5.3832617700099945
+        },
+        {
+          "index": 2,
+          "entropy_rate_bits": 1.635798278477025,
+          "mean_ess": 0.422870984095781,
+          "lost_lock_fraction": 0.0,
+          "usable": true,
+          "seconds": 5.3832617700099945
+        },
+        {
+          "index": 3,
+          "entropy_rate_bits": 1.6385325253438485,
+          "mean_ess": 0.422441940795832,
+          "lost_lock_fraction": 0.0,
+          "usable": true,
+          "seconds": 5.3832617700099945
+        },
+        {
+          "index": 4,
+          "entropy_rate_bits": 1.640557761326808,
+          "mean_ess": 0.42300808263579676,
+          "lost_lock_fraction": 0.0,
+          "usable": true,
+          "seconds": 5.3832617700099945
+        },
+        {
+          "index": 5,
+          "entropy_rate_bits": 1.6372291342551597,
+          "mean_ess": 0.4235612466149988,
+          "lost_lock_fraction": 0.0,
+          "usable": true,
+          "seconds": 5.3832617700099945
+        },
+        {
+          "index": 6,
+          "entropy_rate_bits": 1.625288174948986,
+          "mean_ess": 0.4246892609468756,
+          "lost_lock_fraction": 0.0,
+          "usable": true,
+          "seconds": 5.3832617700099945
+        },
+        {
+          "index": 7,
+          "entropy_rate_bits": 1.6405273641499918,
+          "mean_ess": 0.4225352778926424,
+          "lost_lock_fraction": 0.0,
+          "usable": true,
+          "seconds": 5.3832617700099945
+        }
+      ],
+      "process": "gaussian15"
+    },
+    {
+      "result": {
+        "entropy_rate_bits": 1.6352993125672017,
+        "stderr_bits": 0.0018091430787553027,
+        "per_repeat_bits": [
+          1.6312751861936112,
+          1.6378682010331926,
+          1.6351428646792345,
+          1.6383059858290656,
+          1.6396039970481942,
+          1.6358311030857686,
+          1.624660220612094,
+          1.6397069420564512
+        ],
+        "per_repeat_usable": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "label": "Gaussian kernel (tau=1.5, 13 taps)",
+        "delta": 0.5,
+        "sigma": 0.9999999999999999,
+        "h0": 0.05844969824005386,
+        "n_taps": 13,
+        "n": 30000,
+        "n_particles": 30000,
+        "n_repeats": 8,
+        "burn_in": 0,
+        "lower_bound_bits": 0.0,
+        "upper_bound_bits": 3.0619692493630026,
+        "approximation_bits": 1.641549404402135,
+        "empirical_symbol_entropy_bits": 3.0625333465445093,
+        "n_symbols_observed": 19,
+        "mean_ess": 0.42328246191437,
+        "min_ess": 5.928194514126517e-05,
+        "lost_lock_fraction": 0.0,
+        "autocov_error": 4.469710519666937e-16,
+        "floored_fraction": 0.0,
+        "elapsed_sec": 138.38901925086975,
+        "params": {
+          "tau": 1.5,
+          "preset": "gaussian",
+          "engine": "gpu"
+        },
+        "delta_over_sigma": 0.5000000000000001,
+        "delta_over_h0": 8.554364095200148,
+        "n_usable_repeats": 8,
+        "n_failed_repeats": 0,
+        "within_bounds": true,
+        "collapsed": false
+      },
+      "repeats": [
+        {
+          "index": 0,
+          "entropy_rate_bits": 1.6312751861936112,
+          "mean_ess": 0.424027217864737,
+          "lost_lock_fraction": 0.0,
+          "usable": true,
+          "seconds": 17.29846104979515
+        },
+        {
+          "index": 1,
+          "entropy_rate_bits": 1.6378682010331926,
+          "mean_ess": 0.4231688102912696,
+          "lost_lock_fraction": 0.0,
+          "usable": true,
+          "seconds": 17.29846104979515
+        },
+        {
+          "index": 2,
+          "entropy_rate_bits": 1.6351428646792345,
+          "mean_ess": 0.4228665926329715,
+          "lost_lock_fraction": 0.0,
+          "usable": true,
+          "seconds": 17.29846104979515
+        },
+        {
+          "index": 3,
+          "entropy_rate_bits": 1.6383059858290656,
+          "mean_ess": 0.4224013257955264,
+          "lost_lock_fraction": 0.0,
+          "usable": true,
+          "seconds": 17.29846104979515
+        },
+        {
+          "index": 4,
+          "entropy_rate_bits": 1.6396039970481942,
+          "mean_ess": 0.4230283981358623,
+          "lost_lock_fraction": 0.0,
+          "usable": true,
+          "seconds": 17.29846104979515
+        },
+        {
+          "index": 5,
+          "entropy_rate_bits": 1.6358311030857686,
+          "mean_ess": 0.4235312502729374,
+          "lost_lock_fraction": 0.0,
+          "usable": true,
+          "seconds": 17.29846104979515
+        },
+        {
+          "index": 6,
+          "entropy_rate_bits": 1.624660220612094,
+          "mean_ess": 0.4246703151319465,
+          "lost_lock_fraction": 0.0,
+          "usable": true,
+          "seconds": 17.29846104979515
+        },
+        {
+          "index": 7,
+          "entropy_rate_bits": 1.6397069420564512,
+          "mean_ess": 0.4225657851897093,
+          "lost_lock_fraction": 0.0,
+          "usable": true,
+          "seconds": 17.29846104979515
+        }
+      ],
+      "process": "gaussian15"
+    }
+  ]
+}

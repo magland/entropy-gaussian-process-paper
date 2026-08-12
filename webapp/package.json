@@ -1,0 +1,31 @@
+{
+  "name": "egp-webapp",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc -b",
+    "test": "vitest run",
+    "golden": "python scripts/make_golden.py"
+  },
+  "dependencies": {
+    "@bokuweb/zstd-wasm": "^0.0.27",
+    "fflate": "^0.8.3",
+    "katex": "^0.16.25",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.1",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.1.1",
+    "@webgpu/types": "^0.1.71",
+    "typescript": "~5.9.3",
+    "vite": "^7.2.4",
+    "vitest": "^3.2.4"
+  }
+}
