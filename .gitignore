@@ -21,6 +21,9 @@ venv/
 paper/*.aux
 paper/*.log
 paper/*.out
+paper/*.fdb_latexmk
+paper/*.fls
+paper/*.synctex.gz
 
 # Generated output: the built paper, and the vector copies of the figures
 # (the paper embeds the .png versions).  Rebuild with paper/build.sh and the
