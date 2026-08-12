@@ -2,8 +2,8 @@
 
 How many bits per sample does a rounded Gaussian signal really carry?
 
-Let $X_t$ be a zero-mean stationary Gaussian process and $Y_t =
-\operatorname{round}(X_t/\Delta)$ its uniform quantization. The entropy rate
+Let $X_t$ be a zero-mean stationary Gaussian process and
+$Y_t = \mathrm{round}(X_t/\Delta)$ its uniform quantization. The entropy rate
 $\bar H$ of $\{Y_t\}$ is the limit no lossless code can beat, but it has no
 closed form: the likelihood of a block is an $n$-dimensional Gaussian integral
 over a box. This repository contains a paper developing two methods for

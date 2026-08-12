@@ -2,7 +2,7 @@
 
 Estimates the entropy rate, in **bits per sample**, of
 
-$$Y_t = \operatorname{round}(X_t / \Delta) \in \mathbb{Z},$$
+$$Y_t = \mathrm{round}(X_t / \Delta) \in \mathbb{Z},$$
 
 where $X_t$ is a zero-mean stationary Gaussian process.  The method is the one
 developed in the accompanying paper, [`../paper/paper.tex`](../paper/paper.tex): write the process
