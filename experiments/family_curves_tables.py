@@ -75,16 +75,19 @@ def error_cell(row: dict) -> str:
 
 
 def latex_table(number: int, heading: str, col0: str, rows: list[dict], note: str) -> str:
+    header = (
+        f"{col0} & $\\Delta/\\sigma$ & $N$ & $n$ & $r$ & estimate (bits/sample) & "
+        "approximation & error (millibits) \\\\"
+    )
     lines = [
-        f"\\textbf{{Table C{number}.}} {heading} {note}",
-        "",
         "{\\small",
         "\\begin{longtable}[]{@{}rrrrrrrr@{}}",
         "\\toprule\\noalign{}",
-        f"{col0} & $\\Delta/\\sigma$ & $N$ & $n$ & $r$ & estimate (bits/sample) & approximation & error (millibits) \\\\",
+        header,
         "\\midrule\\noalign{}",
         "\\endhead",
         "\\bottomrule\\noalign{}",
+        f"\\caption{{{heading} {note}}}\\label{{tab:family{number}}}\\\\",
         "\\endlastfoot",
     ]
     for row in rows:
@@ -141,18 +144,21 @@ def main() -> None:
             row["value_label"] = PROCESS_LABEL[name]
             delta_rows.append(row)
     if delta_rows:
+        header = (
+            "process & $\\Delta/\\sigma$ & $N$ & $n$ & $r$ & estimate (bits/sample) & "
+            "approximation & error (millibits) \\\\"
+        )
         lines = [
-            f"\\textbf{{Table C{number}.}} \\textbf{{White noise and first difference}}. "
-            "The particle-filter estimate against the analytical approximation over "
-            "the quantization step (error is approximation minus estimate).",
-            "",
             "{\\small",
             "\\begin{longtable}[]{@{}lrrrrrrr@{}}",
             "\\toprule\\noalign{}",
-            "process & $\\Delta/\\sigma$ & $N$ & $n$ & $r$ & estimate (bits/sample) & approximation & error (millibits) \\\\",
+            header,
             "\\midrule\\noalign{}",
             "\\endhead",
             "\\bottomrule\\noalign{}",
+            "\\caption{\\textbf{White noise and first difference}. "
+            "The particle-filter estimate against the analytical approximation over "
+            f"the quantization step (error is approximation minus estimate).}}\\label{{tab:family{number}}}\\\\",
             "\\endlastfoot",
         ]
         md = [

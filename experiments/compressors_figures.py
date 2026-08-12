@@ -325,21 +325,20 @@ def compressors_table(delta: float = 0.25) -> None:
     path.write_text("\n".join(md) + "\n")
     print(f"wrote {path}")
 
+    # Just the tabular body: paper.tex wraps it in the table float and supplies
+    # the caption, so that the caption prose stays with the rest of the prose.
     tex = [
         "{\\small",
-        "\\begin{longtable}[]{@{}l" + "r" * (len(processes) + 1) + "@{}}",
-        "\\toprule\\noalign{}",
+        "\\begin{tabular}{@{}l" + "r" * (len(processes) + 1) + "@{}}",
+        "\\toprule",
         "coder & " + " & ".join(SHORT[p] for p in processes) + " & overhead \\\\",
-        "\\midrule\\noalign{}",
-        "\\endhead",
-        "\\bottomrule\\noalign{}",
-        "\\endlastfoot",
+        "\\midrule",
     ]
     for i, block in enumerate(blocks):
         if i:
-            tex.append("\\midrule\\noalign{}")
+            tex.append("\\midrule")
         tex.extend(t for _, t in block)
-    tex += ["\\end{longtable}", "}"]
+    tex += ["\\bottomrule", "\\end{tabular}", "}"]
     PAPER_TEX.write_text("\n".join(tex) + "\n")
     print(f"wrote {PAPER_TEX}")
 

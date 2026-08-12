@@ -1,25 +1,23 @@
 {\small
-\begin{longtable}[]{@{}lrrrrrrrr@{}}
-\toprule\noalign{}
+\begin{tabular}{@{}lrrrrrrrr@{}}
+\toprule
 coder & white & diff & MA(8) & AR(1) & $\tau{=}1$ & $\tau{=}1.5$ & lowpass & overhead \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
+\midrule
 entropy rate & 4.051 & 3.621 & 2.731 & 2.884 & 2.888 & 2.165 & 2.188 & -- \\
 order-0 entropy & 4.049 & 4.049 & 4.048 & 4.047 & 4.049 & 4.049 & 4.049 & 45\% \\
-\midrule\noalign{}
+\midrule
 ANS on raw & 4.095 & 4.093 & 4.090 & 4.090 & 4.093 & 4.091 & 4.093 & 46\% \\
-\midrule\noalign{}
+\midrule
 zlib -9 & 5.484 & 5.229 & 4.449 & 4.291 & 4.564 & 3.745 & 4.130 & 59\% \\
 zstd -19 & 4.963 & 4.641 & 3.838 & 3.655 & 3.901 & 3.037 & 3.334 & 35\% \\
 brotli -11 & 4.634 & 4.453 & 3.746 & 3.597 & 3.779 & 3.003 & 3.275 & 31\% \\
 LZMA -9 & 4.537 & 4.257 & 3.547 & 3.405 & 3.602 & 2.869 & 3.136 & 25\% \\
 bzip2 -9 & 4.618 & 4.299 & 3.549 & 3.409 & 3.461 & 2.659 & 2.827 & 22\% \\
-\midrule\noalign{}
+\midrule
 delta coding + zlib -9 & 5.891 & 6.019 & 4.202 & 3.991 & 4.353 & 3.340 & 3.800 & 55\% \\
 delta coding + ANS & 4.612 & 4.914 & 3.122 & 2.961 & 3.539 & 2.995 & 3.537 & 27\% \\
 FLAC -8 & 4.164 & 3.885 & 3.228 & 3.062 & 3.234 & 2.847 & 2.879 & 16\% \\
 LPC(32) + ANS & 4.114 & 3.687 & 2.824 & 2.952 & 2.957 & 2.242 & 2.271 & 3\% \\
-\end{longtable}
+\bottomrule
+\end{tabular}
 }
