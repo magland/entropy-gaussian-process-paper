@@ -27,15 +27,16 @@ jobs:
       - uses: actions/checkout@v4
 
       # --- the paper ---------------------------------------------------
-      # paper.tex needs only fontenc, inputenc, geometry, amsmath, amssymb,
-      # graphicx, booktabs, longtable, array, calc and hyperref, all of which
-      # live in these three packages; texlive-latex-extra is a gigabyte that
-      # this document does not need.
+      # paper.tex needs fontenc, inputenc, geometry, amsmath, amssymb,
+      # graphicx, booktabs, longtable, array, calc, caption, flafter and
+      # hyperref, which live in the base, recommended and fonts packages, plus
+      # placeins, which lives in texlive-latex-extra.
       - name: Install TeX Live
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends \
-            texlive-latex-base texlive-latex-recommended texlive-fonts-recommended
+            texlive-latex-base texlive-latex-recommended texlive-fonts-recommended \
+            texlive-latex-extra
 
       - name: Build the paper
         working-directory: paper

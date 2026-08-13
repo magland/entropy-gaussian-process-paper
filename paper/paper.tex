@@ -194,7 +194,7 @@ For \(t = 1,\dots,n\):
 \textbf{Output:} \(\hat{\bar H} = -\ell/(n\ln 2)\) bits per sample.
 \end{quote}
 
-Step 4 samples exactly from \(p(w_t \mid y_t, u)\) and step 3 resamples using the exact predictive weights, so this is the fully adapted auxiliary particle filter for this model, and \(\prod_t \frac1N\sum_i \alpha^{(i)}\) is an unbiased estimator of \(P(y_1^n)\) \cite[Prop.~7.4.1]{DelMoral2004}. The computational cost is \(O(nNL)\) time and \(O(NL)\) memory. Numerically stable evaluation of the cell probabilities and of the truncated-normal draws requires some care in log space; the details are given in Appendix A and in the accompanying code.
+Step 4 samples exactly from \(p(w_t \mid y_t, u)\) and step 3 resamples using the exact predictive weights, so this is the fully adapted auxiliary particle filter for this model. Under multinomial resampling \(\prod_t \frac1N\sum_i \alpha^{(i)}\) is an unbiased estimator of \(P(y_1^n)\) \cite[Prop.~7.4.1]{DelMoral2004}; we use systematic resampling for its lower variance, which forgoes this exact unbiasedness but leaves intact the convergence from above documented in Section 5. The computational cost is \(O(nNL)\) time and \(O(NL)\) memory. Numerically stable evaluation of the cell probabilities and of the truncated-normal draws requires some care in log space; the details are given in Appendix A and in the accompanying code.
 
 \subsection{Bias, convergence, and reporting}\label{bias-convergence-and-reporting}
 
@@ -409,7 +409,7 @@ The tables below record every Monte Carlo point of the comparison of Section 5.2
 
 \section{Implementation}\label{implementation}
 
-Three implementations accompany the paper; the repository is cited as an artifact. \emph{{[}Repository reference and final package name to be added.{]}}
+Three implementations accompany the paper, all in the repository at \url{https://github.com/magland/entropy-gaussian-process-paper}.
 
 The first is a standalone Python package implementing the full pipeline: process specification by preset, convolution kernel, or autocovariance; the cepstral minimum-phase factorization with its diagnostics; the fully adapted filter with the collapse diagnostic; the analytical approximation; and the compression benchmark. A command-line interface produces the estimates (streaming replicates with a running mean and standard error, with the approximation reported alongside) and the plots.
 
