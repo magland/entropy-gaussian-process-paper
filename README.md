@@ -16,7 +16,7 @@ It can also be built locally with `cd paper && ./build.sh paper`.
 | [`egp/`](egp/) | reference Python implementation: library and `egp` CLI, with CPU and WebGPU engines |
 | [`experiments/`](experiments/) | the Section 5 experiments: one script per experiment, the results as JSON, and the scripts that turn them into the paper's figures and tables |
 | [`webapp/`](webapp/) | interactive browser version: move the filter and the quantizer, watch the rate and real codecs respond |
-| [`tutorials/`](tutorials/) | explanatory material, starting with a [tutorial on the particle filter](tutorials/particle-filter/) |
+| [`tutorials/`](tutorials/) | explanatory material, starting with [the particle filter behind the estimator](tutorials/particle-filter/) |
 
 ## Quick start
 

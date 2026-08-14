@@ -6,7 +6,7 @@ that generates them.
 
 | | |
 | --- | --- |
-| [`particle-filter/`](particle-filter/) | What a particle filter is, why the textbook version degenerates on this problem, and how the fully adapted filter of Section 4 works. Refresher included. |
+| [`particle-filter/`](particle-filter/) | Why a bootstrap filter degenerates on the quantized Gaussian process, and how the fully adapted filter of Section 4 avoids it. Starts from the standard machinery. |
 
 The figure scripts need the `egp` package (`pip install -e egp` from the repository root) and
 matplotlib. Run one with, for example:

@@ -1,15 +1,16 @@
-# A refresher on particle filters, and the one this paper uses
+# From the bootstrap filter to the fully adapted filter of Section 4
 
-The entropy rate estimator of the paper is a particle filter, and it is the part of the method
-readers most often want unpacked. This tutorial builds it up from the beginning: what a particle
-filter is, what the textbook version does, and then what is different about the filter in
-[Section 4 of the paper](../../paper/paper.tex), which is *fully adapted*, meaning that both of the
-approximations a textbook filter makes at each step are replaced by exact closed-form calculations.
+The entropy rate estimator of [Section 4 of the paper](../../paper/paper.tex) is a *fully adapted*
+particle filter: the two approximations a bootstrap filter makes at each step are both replaced by
+exact closed-form calculations. The two properties of the quantized Gaussian model that allow this
+are easy to state but easy to miss. This document sets out the standard machinery first, then those
+two properties, then what they cost and what they do not buy.
 
-The reader is assumed to know basic probability and to have seen Monte Carlo sampling before.
-No prior exposure to state-space models or filtering is needed. Every figure below is produced by
-[`make_figures.py`](make_figures.py) in this directory, which carries readable implementations of
-every filter discussed; the production versions are in
+Sections 2 through 4 are the standard material, kept here so that the notation and the two facts the
+estimator leans on are on the page: the likelihood falls out of the filter weights, and its logarithm
+is biased. Anyone who has run a particle filter can start at Section 5, where the paper's model
+appears. Every figure is produced by [`make_figures.py`](make_figures.py) in this directory, which
+carries readable implementations of every filter discussed; the production versions are in
 [`egp/src/egp/pf.py`](../../egp/src/egp/pf.py) and [`egp/src/egp/pf.wgsl`](../../egp/src/egp/pf.wgsl).
 
 **Contents**
@@ -111,7 +112,7 @@ only on the current state:
 
 $$X_t \sim p(x_t \mid x_{t-1}), \qquad Y_t \sim p(y_t \mid x_t).$$
 
-For the refresher figures we use the standard scalar example,
+For the figures in this section we use the standard scalar example,
 $X_t = 0.9 X_{t-1} + 0.5\,\varepsilon_t$ observed as $Y_t = X_t + 0.7\,\eta_t$ with
 $\varepsilon, \eta$ independent standard normals. It is linear and Gaussian, so the Kalman filter
 gives the exact answer to compare against.
