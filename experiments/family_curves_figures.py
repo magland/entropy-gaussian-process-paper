@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """Section 5.2 figures from results/family_curves*.json.
 
-Writes one figure per family, figures/fig_family_<name>.(png|pdf), each with
+Writes one figure per family, ../paper/figures/fig_family_<name>.(png|pdf), each with
 two panels: (a) the entropy rate, the analytical approximation as dense
 curves with the particle-filter estimates overlaid as open circles; (b) the
 error of the approximation (approximation minus estimate, in millibits per

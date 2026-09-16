@@ -3,11 +3,11 @@
 
 Writes
 
-  * figures/fig_compressors.(png|pdf): bits per sample against the entropy
+  * ../paper/figures/fig_compressors.(png|pdf): bits per sample against the entropy
     rate as a function of the quantization step, for three families, with the
     five general-purpose coders shown as a band and the structure-aware
     coders as individual curves;
-  * figures/fig_compressor_panel.(png|pdf): the overhead of every coder above
+  * ../paper/figures/fig_compressor_panel.(png|pdf): the overhead of every coder above
     the entropy rate, family by family, at delta = sigma/4 and delta = sigma;
   * results/compressors_table.md and ../paper/compressors_table.tex: the full
     panel at delta = sigma/4.

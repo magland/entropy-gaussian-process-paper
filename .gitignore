@@ -31,7 +31,7 @@ paper/*.synctex.gz
 # (the paper embeds the .png versions).  Rebuild with paper/build.sh and the
 # experiments/*_figures.py scripts.
 paper/*.pdf
-experiments/figures/*.pdf
+paper/figures/*.pdf
 
 # OS
 .DS_Store

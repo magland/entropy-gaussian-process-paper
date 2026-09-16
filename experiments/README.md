@@ -3,7 +3,7 @@
 Scripts reproducing the results of Section 5 of `../paper/paper.tex`.  Each
 script runs one experiment over a parameter grid and writes a JSON file to
 `results/`; the `*_figures.py` scripts turn those files into the figures and
-tables in `figures/`.  Requires `egp` (`pip install -e ../egp`) and, for the
+tables in `../paper/figures/`.  Requires `egp` (`pip install -e ../egp`) and, for the
 default GPU engine, `pip install -e "../egp[gpu]"`.
 
 Scripts are named by content rather than by section number, since the

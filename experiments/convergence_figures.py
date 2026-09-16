@@ -3,7 +3,7 @@
 
 Reads convergence_particles*.json, convergence_length*.json and convergence_collapse*.json
 (several files per experiment are merged, so that a family added later can be
-run on its own) and writes to figures/:
+run on its own) and writes to ../paper/figures/:
 
   fig_convergence_particles.(png|pdf)   estimate vs N, and paired excess vs N
   fig_convergence_length.(png|pdf)      estimate vs n, and replicate scatter vs n

@@ -18,7 +18,8 @@ import egp
 
 EXPERIMENTS_DIR = Path(__file__).resolve().parent
 RESULTS_DIR = EXPERIMENTS_DIR / "results"
-FIGURES_DIR = EXPERIMENTS_DIR / "figures"
+# The figures live next to the paper so that the paper directory is self-contained.
+FIGURES_DIR = EXPERIMENTS_DIR.parent / "paper" / "figures"
 
 #: The processes used in the experiments, all normalized to sigma = 1.
 PROCESS_BUILDERS = {
