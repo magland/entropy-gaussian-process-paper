@@ -4,6 +4,12 @@ This repository accompanies the paper of the same name. It contains the paper
 itself, a reference Python implementation, an interactive browser
 demonstration, and the scripts that reproduce every figure and table.
 
+The interactive demonstration runs in the browser at
+[magland.github.io/entropy-gaussian-process-paper](https://magland.github.io/entropy-gaussian-process-paper/):
+adjust the filter and the quantizer and watch the entropy rate, the analytical
+approximation, and real codec performance respond. It uses WebGPU where the
+browser provides it and falls back to a slower scalar engine otherwise.
+
 The compiled paper is published at
 [magland.github.io/entropy-gaussian-process-paper/paper.pdf](https://magland.github.io/entropy-gaussian-process-paper/paper.pdf).
 It can also be built locally with `cd paper && ./build.sh paper`.
@@ -15,7 +21,7 @@ It can also be built locally with `cd paper && ./build.sh paper`.
 | [`paper/`](paper/) | the paper (`paper.tex`, built with `./build.sh paper`) |
 | [`egp/`](egp/) | reference Python implementation: library and `egp` CLI, with CPU and WebGPU engines |
 | [`experiments/`](experiments/) | the Section 5 experiments: one script per experiment, the results as JSON, and the scripts that turn them into the paper's figures and tables |
-| [`webapp/`](webapp/) | interactive browser version: move the filter and the quantizer, watch the rate and real codecs respond |
+| [`webapp/`](webapp/) | interactive browser version ([live demo](https://magland.github.io/entropy-gaussian-process-paper/)): move the filter and the quantizer, watch the rate and real codecs respond |
 | [`tutorials/`](tutorials/) | explanatory material, starting with [the particle filter behind the estimator](tutorials/particle-filter/) |
 
 ## Quick start
