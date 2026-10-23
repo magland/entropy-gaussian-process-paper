@@ -78,7 +78,10 @@ If you use this code or these results, please cite the paper:
 > J. Magland, "Computing the entropy rate of a quantized stationary Gaussian
 > process," arXiv:2609.18784, 2026.
 
-Citation metadata is in [`CITATION.cff`](CITATION.cff).
+The code and results are archived on Zenodo at
+[doi:10.5281/zenodo.23598895](https://doi.org/10.5281/zenodo.23598895)
+(this DOI resolves to the latest version). Citation metadata is in
+[`CITATION.cff`](CITATION.cff).
 
 ## License
 
