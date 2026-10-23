@@ -8,7 +8,7 @@ version = "0.1.0"
 description = "Entropy rate estimation for quantized stationary Gaussian processes via a fully adapted particle filter"
 readme = "README.md"
 requires-python = ">=3.9"
-license = { text = "MIT" }
+license = { text = "Apache-2.0" }
 dependencies = [
     "numpy>=1.22",
     "scipy>=1.8",

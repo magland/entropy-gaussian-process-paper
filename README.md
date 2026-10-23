@@ -10,9 +10,11 @@ adjust the filter and the quantizer and watch the entropy rate, the analytical
 approximation, and real codec performance respond. It uses WebGPU where the
 browser provides it and falls back to a slower scalar engine otherwise.
 
-The compiled paper is published at
-[magland.github.io/entropy-gaussian-process-paper/paper.pdf](https://magland.github.io/entropy-gaussian-process-paper/paper.pdf).
-It can also be built locally with `cd paper && ./build.sh paper`.
+The paper is available on arXiv as
+[arXiv:2609.18784](https://arxiv.org/abs/2609.18784). The current version is
+compiled from this repository and published at
+[magland.github.io/entropy-gaussian-process-paper/paper.pdf](https://magland.github.io/entropy-gaussian-process-paper/paper.pdf);
+it can also be built locally with `cd paper && ./build.sh paper`.
 
 ## Contents
 
@@ -68,3 +70,16 @@ published is always built from the current sources.
 Enabling it on a fresh clone is one manual step: in the repository's
 **Settings → Pages**, set **Source** to **GitHub Actions**. The workflow can
 also be run on demand from the Actions tab.
+
+## Citing
+
+If you use this code or these results, please cite the paper:
+
+> J. Magland, "Computing the entropy rate of a quantized stationary Gaussian
+> process," arXiv:2609.18784, 2026.
+
+Citation metadata is in [`CITATION.cff`](CITATION.cff).
+
+## License
+
+Apache License 2.0; see [`LICENSE`](LICENSE).

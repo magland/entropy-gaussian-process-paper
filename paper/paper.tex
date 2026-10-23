@@ -37,7 +37,7 @@
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 
 \title{Computing the entropy rate of a\\ quantized stationary Gaussian process}
-\author{Jeremy Magland\thanks{Center for Computational Mathematics, Flatiron Institute, Simons Foundation, New York, New York 10010}}
+\author{Jeremy Magland\thanks{Center for Computational Mathematics, Flatiron Institute, 162 Fifth Avenue, New York, NY 10010, USA}}
 \date{}
 
 \begin{document}
@@ -45,7 +45,10 @@
 \maketitle
 
 \begin{abstract}
-We consider a stationary Gaussian process observed after uniform quantization. The entropy rate of the resulting integer sequence is the fundamental limit on lossless compression of the quantized signal, but it has no closed form. Furthermore, the classical high-resolution approximation breaks down whenever the spectral density is small or vanishing on part of the band, a situation that arises routinely from ordinary smoothing and filtering. Here we present two methods for computing the rate. The first is an analytical approximation obtained by combining an exact dithering identity with the Kolmogorov--Szegő formula. In it the quantization noise power acts as a floor on the spectral density, so that the rate remains finite in situations where the classical formula fails. The second is a Monte Carlo estimate of the exact rate. Using its minimum-phase spectral factor, we represent the process as a finite moving average of independent Gaussian innovations. The quantized sequence is then a hidden Markov process whose optimal (fully adapted) particle filter is available in closed form, and by the Shannon--McMillan--Breiman theorem the rate follows from the filter's log-likelihood on a single long sequence drawn from the process. In numerical experiments across a range of process families, the approximation agrees with the Monte Carlo estimate to within a few millibits per sample over most of the parameter range for quantization steps up to the standard deviation of the signal, including strongly filtered processes for which the classical formula fails outright; at the most strongly filtered points tested the discrepancy grows to a few percent of the rate. For substantially coarser steps the Monte Carlo estimate should be used in its place. We also compare a panel of lossless coders against the computed limit. At a quantization step of one quarter of the signal standard deviation, linear predictive coding followed by an entropy coder comes within 2 to 4 percent of the entropy rate and the FLAC audio codec within 3 to 32 percent, whereas five general-purpose byte-oriented compressors applied to the raw samples remain 12 to 89 percent above it.
+The entropy rate of a uniformly quantized stationary Gaussian process is the fundamental limit on its lossless compression. It has no closed form, and the classical high-resolution approximation breaks down whenever the spectral density is small on part of the band, as routine smoothing and filtering produce. Here we present two methods for computing the rate. The first is an analytical approximation, obtained from an exact dithering identity and the Kolmogorov--Szegő formula, in which the quantization noise power acts as a floor on the spectral density. The second is a Monte Carlo estimate of the exact rate: a minimum-phase moving-average representation makes the quantized sequence a hidden Markov process whose optimal particle filter is available in closed form, and the filter's log-likelihood on one long sequence gives the rate. The approximation agrees with the estimate to within a few millibits per sample over most of the parameter range for quantization steps up to the signal standard deviation, including processes on which the classical formula fails; for coarser steps the estimate should be used instead. At a step of a quarter of the standard deviation, linear predictive coding comes within 2 to 4 percent of the rate, FLAC within 3 to 32 percent, and general-purpose compressors remain 12 to 89 percent above it.
+
+\medskip
+\noindent\textbf{Keywords:} entropy rate; quantization; stationary Gaussian process; Kolmogorov--Szegő formula; particle filter; lossless compression
 \end{abstract}
 
 \section{Introduction}\label{introduction}
@@ -380,6 +383,21 @@ The estimator also does more than measure the rate. At each step the filter repo
 
 Together the two methods make the entropy rate computable at any quantization scale, including the strongly filtered regime the classical formula cannot reach. The rate then serves as a reference: for a measured noise process, how many bits per sample it carries, and how close a given lossless coder comes to that limit.
 
+\vspace{6pt}
+\noindent\textbf{Author Contributions:} J.M. conceived the study, developed the methods and software, performed the experiments, and wrote the manuscript. The author has read and agreed to the published version of the manuscript.
+
+\medskip
+\noindent\textbf{Funding:} This research received no external funding.
+
+\medskip
+\noindent\textbf{Data Availability Statement:} The code and the numerical results supporting the findings of this study, including the scripts that regenerate every figure and table from those results, are openly available at \url{https://github.com/magland/entropy-gaussian-process-paper}.
+
+\medskip
+\noindent\textbf{Acknowledgments:} The Flatiron Institute is a division of the Simons Foundation. During the preparation of this manuscript and study, the author used Claude Opus (Anthropic; several model versions) for the purposes of developing the software, designing and running the numerical experiments, producing the figures and tables, and drafting and revising the text. The author has reviewed and edited the output and takes full responsibility for the content of this publication.
+
+\medskip
+\noindent\textbf{Conflicts of Interest:} The author declares no conflicts of interest.
+
 \appendix
 
 % Number the appendix tables by their appendix (C1, C2, ...).
@@ -417,6 +435,8 @@ The first is a standalone Python package implementing the full pipeline: process
 The second is a WebGPU compute shader. The filter is implemented as a single WGSL kernel, with one workgroup per replicate and particles vectorized within it. The same shader source is executed both from Python (via WebGPU bindings) and natively in the browser. Because WebGPU lacks double precision, the log-space normal CDF and its inverse were rebuilt in single precision; the per-step increments are accumulated in double precision on the host, where the collapse diagnostic is applied unchanged.
 
 The third is an interactive web application: the user adjusts the process (filter) and the quantizer, and the estimated rate, the analytical approximation, and real codec performance are reported in response.
+
+All three implementations, the experiment scripts, and the text of the paper were developed with the assistance of a generative AI model, Claude Opus (Anthropic; several model versions), which was used in writing the software, in designing and running the numerical experiments, in producing the figures and tables, and in drafting and revising the manuscript. The author directed this work and reviewed its output.
 
 \begin{thebibliography}{99}
 

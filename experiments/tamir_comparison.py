@@ -1,5 +1,8 @@
 """Compare, for the unit-step quantized Gaussian MA(1) process X_n = W_n + theta*W_{n-1}
-(sigma = 1, Delta = 1, all quantities in NATS to match Tamir's Fig. 3a):
+(W_n i.i.d. N(0, 1), not normalized; Delta = 1; all quantities in NATS to match
+Tamir's Fig. 3a), the quantities below.  Supports the comparison with Tamir's bound
+in the Introduction of the paper; the printed table is recorded in
+results/tamir_comparison.csv.
 
   1. Tamir (2022/2023) Theorem 1 bound:  1/2 log(2pi e) + (1/4pi) int log(Phi_Y + 1/12)
      -- uses the PSD Phi_Y of the QUANTIZED process (requires R_Y(0), R_Y(1)).
@@ -16,20 +19,8 @@ rng = np.random.default_rng(1)
 def input_spectrum(theta):
     return lambda w: 1 + theta**2 + 2*theta*np.cos(w)
 
-def manuscript_approx(theta):
-    """(1/4pi) int_{-pi}^{pi} log(2 pi e (S(w) + 1/12)) dw   [nats, Delta=1]"""
-    S = input_spectrum(theta)
-    f = lambda w: np.log(2*np.pi*np.e*(S(w) + 1/12.0))
-    val, _ = quad(f, 0, np.pi, limit=400)
-    return val/np.pi/2 * 2 / 2 * 2  # (1/(4pi)) * 2*int_0^pi = int_0^pi f / (2pi)
-    
-def manuscript_approx2(theta):
-    S = input_spectrum(theta)
-    f = lambda w: np.log(2*np.pi*np.e*(S(w) + 1/12.0))
-    val, _ = quad(f, 0, np.pi, limit=400)
-    return val/(2*np.pi)*2/2 + 0  # placeholder
-
 def approx_formula(theta):
+    """(1/4pi) int_{-pi}^{pi} log(2 pi e (S(w) + 1/12)) dw   [nats, Delta=1]"""
     S = input_spectrum(theta)
     f = lambda w: np.log(2*np.pi*np.e*(S(w) + 1/12.0))
     val, _ = quad(f, 0, np.pi, limit=400)   # int over [0,pi]; full integral = 2*val

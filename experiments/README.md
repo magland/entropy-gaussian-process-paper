@@ -111,6 +111,19 @@ residual filter bias, and the sweep measures how slowly it converges; this
 is the one point of Section 5.2 where the comparison is limited by the
 estimator rather than by the formula.
 
+## Introduction — comparison with Tamir's bound
+
+```bash
+python tamir_comparison.py        # MA(1) at delta = 1: classical, approximation, filter, bounds
+```
+
+`tamir_comparison.py` is a standalone NumPy/SciPy script (it does not use
+`egp`) for the quantized MA(1) process of Tamir's Fig. 3a. It evaluates the
+classical formula, the analytical approximation, Tamir's Theorem 1 upper bound
+(computed from the spectrum of the quantized output), the conditional-entropy
+bound H(Y_1 | Y_0), and a particle-filter estimate of the exact rate, all in
+nats. Its output is recorded in `results/tamir_comparison.csv`.
+
 ## Section 5.3 — practical compressors
 
 ```bash

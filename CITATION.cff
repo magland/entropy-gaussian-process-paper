@@ -1,0 +1,42 @@
+cff-version: 1.2.0
+title: >-
+  Computing the entropy rate of a quantized stationary
+  Gaussian process: code and results
+message: >-
+  If you use this software or these results, please cite
+  the paper given under preferred-citation.
+type: software
+authors:
+  - given-names: Jeremy
+    family-names: Magland
+    email: jmagland@flatironinstitute.org
+    affiliation: Flatiron Institute
+repository-code: 'https://github.com/magland/entropy-gaussian-process-paper'
+url: 'https://magland.github.io/entropy-gaussian-process-paper/'
+abstract: >-
+  Code and numerical results accompanying the paper
+  "Computing the entropy rate of a quantized stationary
+  Gaussian process": a reference Python implementation of
+  the analytical approximation and the particle-filter
+  estimator (with CPU and WebGPU engines), the scripts and
+  JSON results that reproduce every figure and table, the
+  LaTeX source of the paper, and an interactive browser
+  demonstration.
+keywords:
+  - entropy rate
+  - quantization
+  - stationary Gaussian process
+  - particle filter
+  - lossless compression
+license: Apache-2.0
+preferred-citation:
+  type: article
+  title: Computing the entropy rate of a quantized stationary Gaussian process
+  authors:
+    - given-names: Jeremy
+      family-names: Magland
+  year: 2026
+  identifiers:
+    - type: other
+      value: 'arXiv:2609.18784'
+  url: 'https://arxiv.org/abs/2609.18784'
